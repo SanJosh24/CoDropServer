@@ -4,7 +4,6 @@ const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express      = require('express');
 const favicon      = require('serve-favicon');
-const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
@@ -19,10 +18,11 @@ const passport      = require('passport');
 
 // require('./config/passport');
 
+// 'mongodb://localhost/coDrop'
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/coDrop')
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -97,7 +97,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000"]
+    origin: ["http://localhost:3000", "https://codrop.herokuapp.com"]
   })
 );
 
