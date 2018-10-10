@@ -13,13 +13,17 @@ authRoutes.post('/signup', (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
+    console.log("starting signup process username <<<<<<<<<<<<<<<<<<<<<<<", username);
+    console.log("starting signup process password <<<<<<<<<<<<<<<<<<<<<<<", password);
   
     if (!username || !password) {
+        console.log(">>>>>>>>>>>>>>>>>> username or password missing <<<<<<<<<<<<<<<<<<");
       res.status(400).json({ message: 'Provide username and password' });
       return;
     }
 
     if(password.length < 7){
+        console.log("########################## the password is not long enough sapingo!");
         res.status(400).json({ message: 'Please make your password at least 7 characters long for security purposes.' });
         return;
     }
@@ -27,11 +31,13 @@ authRoutes.post('/signup', (req, res, next) => {
     user.findOne({ username }, (err, foundUser) => {
 
         if(err){
+            console.log("error when finding user MIKO JONES $$$$$$$$$$$$$$$$$$$$$$$$$$$", err);
             res.status(500).json({message: "Username check went bad."});
             return;
         }
 
         if (foundUser) {
+            console.log("found a user already, this would have faster with promises SAPINGOOO!!!!!");
             res.status(400).json({ message: 'Username taken. Choose another one.' });
             return;
         }
@@ -47,6 +53,7 @@ authRoutes.post('/signup', (req, res, next) => {
   
         aNewUser.save(err => {
             if (err) {
+                console.log("this errored when creating a user. Again would be better if I had added promises   <><><><>><><<>><>><><><><><<>><>><>", err);
                 res.status(400).json({ message: 'Saving user to database went wrong.' });
                 return;
             }
@@ -56,10 +63,11 @@ authRoutes.post('/signup', (req, res, next) => {
             req.login(aNewUser, (err) => {
 
                 if (err) {
+                    console.log("this is an error when logging in user after log in. WHY THE FUCK DID I NOT MAKE PROMISES!?!???!?!?!??!?!?!??!??!?!?!??!", err);
                     res.status(500).json({ message: 'Login after signup went bad.' });
                     return;
                 }
-            
+                console.log("the user info after signup >>>>>>>>>>>>>>>>>>>>>>> ", aNewUser);
                 // Send the user's information to the frontend
                 // We can use also: res.status(200).json(req.user);
                 res.status(200).json(aNewUser);
