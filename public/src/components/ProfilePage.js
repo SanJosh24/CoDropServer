@@ -25,7 +25,7 @@ class ProfilePage extends Component {
   handleFormSubmit = (event) => {
     event.preventDefault();
     const {title, description} = this.state;
-    axios.post("http://localhost:5000/api/profile/post", {title, description } , {withCredentials: true}) 
+    axios.post(process.env.REACT_APP_BASE_URL + "/profile/post", {title, description } , {withCredentials: true}) 
     .then( () => {
         // this.props.getData();
         this.setState({title: "", description: ""});
@@ -41,7 +41,7 @@ class ProfilePage extends Component {
   }
 
   getAllProfileBlogs = () =>{
-    axios.get(`http://localhost:5000/api/profile/${this.props.match.params.id}/blogs`)
+    axios.get(process.env.REACT_APP_BASE_URL + `/profile/${this.props.match.params.id}/blogs`)
     .then(responseFromApi => {
       // console.log("this is the response from the axios get -=-=-=-=",responseFromApi.data);
 

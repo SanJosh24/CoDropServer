@@ -11,7 +11,7 @@ class BlogsList extends Component {
   }
 
   getAllBlogs = () => {
-    axios.get('http://localhost:5000/api/blogs')
+    axios.get(process.env.REACT_APP_BASE_URL + '/blogs')
     .then(responseFromApi => {
       console.log("lalalalalalalalalala",this.state);
       this.setState({

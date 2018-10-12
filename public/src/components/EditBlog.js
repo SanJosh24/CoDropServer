@@ -17,7 +17,7 @@ class EditBlog extends Component {
 
     event.preventDefault();
 
-    axios.put(`http://localhost:5000/api/projects/${this.props.theBlog._id}`, { title, description })
+    axios.put(process.env.REACT_APP_BASE_URL + `/projects/${this.props.theBlog._id}`, { title, description })
     .then( () => {
         this.props.getTheBlog();
         // after submitting the form, redirect to '/projects'
