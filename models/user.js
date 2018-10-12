@@ -6,10 +6,10 @@ const userSchema = new Schema({
   username: String,
   password: String,
   email: String,
-  blogs: [{ type: Schema.Types.ObjectId, ref: "blogs" }],
+  blogs: [{ type: Schema.Types.ObjectId, ref: "Blog" }],
   clan: Array,
   favoritedBy: [{ type: Schema.Types.ObjectId}],
-  favoriteUsers: [{ type: Schema.Types.ObjectId}],
+  favoriteUsers: [{ type: Schema.Types.ObjectId, ref: "User"}],
   hierarchy: String,
   imageurl: String,
   messages: [{ type: Schema.Types.ObjectId}]
@@ -20,6 +20,6 @@ const userSchema = new Schema({
   }
 });
 
-const user = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
-module.exports = user;
+module.exports = User;

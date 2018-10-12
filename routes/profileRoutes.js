@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 // require the user model & blog model !!!!
 
 const user = require('../models/user');
-const blog = require('../models/blogs');
+const Blog = require('../models/blogs');
 
 // GET route => to get user information
 
@@ -25,37 +25,27 @@ profileRoutes.get('/profile/:id', (req, res, next) => {
 profileRoutes.get('/profile/:id/blogs', (req, res, next) => {
 	const tempArray = [];
 	user
-	.findById(req.params.id).populate('favoritedUsers').populate('blogs')
-	.then((res) => {
-		res.blogs.forEach((oneBlog) => {
-			tempArray.push(oneBlog);
-			return tempArray;
-		});
-		const userFavorite = res.favoriteUsers;
-	});
-	const idFromParams = req.params.id;
-	blog
-		.find()
-		.then((blogs) => {
-			blogs.forEach((oneBlog) => {
-				if (oneBlog.owner.includes(req.user.favoriteUsers)) {
-					tempArray.push(oneBlog);
-				}
-			});
-			res.json({ tempArray });
-		})
-		.catch((err) => {
-			res.json(err);
-		})
-		.catch((err) => {
-			res.json(err);
-		});
+	.findById(req.params.id).populate({
+		path: 'favoriteUsers', 
+		populate: {
+			path: 'blogs', 
+			model: 'Blog'
+		}
+	}).populate('blogs')
+	.then((blah) => {
+		res.json(blah)
+	})
+	.catch(err=> res.json(err))
+
+
 });
 
 // POST route => to have the user post a blog
 
 profileRoutes.post('/profile/post', (req, res, next) => {
-	blog
+	console.log("-=-=-=-=-=-=-=--=-=-=-=-",req.user);
+	
+	Blog
 		.create({
 			title: req.body.title,
 			description: req.body.description,

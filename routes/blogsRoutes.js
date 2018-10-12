@@ -12,14 +12,9 @@ const blog = require('../models/blogs');
 
 blogsRoutes.get('/blogs', (req, res, next) => {
 	var tempArray = [];
-	blog.find()
+	blog.find({public: true})
 		.then((blogs) => {
-			blogs.forEach((oneBlog) => {
-				if (oneBlog.public === true) {
-					tempArray.push(oneBlog);
-				}
-			});
-			res.json({ tempArray });
+			res.json(blogs);
 		})
 		.catch((err) => {
 			res.json(err);
